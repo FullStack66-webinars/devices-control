@@ -1,0 +1,66 @@
+.page{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.kicker{
+  color: #526781;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.summary{
+  font-weight: bold;
+  margin: 24px 0 16px;
+}
+
+.device-list{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.device-card{
+  background: #fff;
+  padding: 16px;
+  border: 1px solid #d9e0e8;
+  border-radius: 12px;
+}
+
+.device-card h2{
+
+  margin: 0 0 16px;
+  font-size: 18px;
+}
+
+.muted{
+  color: #667587;
+}
+
+.actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.actions button{
+  border:0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  background: #315d94;
+  color: #fff;
+}
+
+.actions .danger{
+  background: #f7e3e3;
+  color: #922c2c
+}
+
+.panel{
+  background: #fff;
+  border: 1px solid #d9e0e8;
+  border-radius: 12px;
+  margin-top: 20px;
+  padding: 20px;
+}
