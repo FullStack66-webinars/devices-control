@@ -24,7 +24,7 @@ function App() {
         <p className="muted">Control devices</p>
       </header>
 
-      <p className="summary"> Number o devices: {devices.length}</p>
+      <p className="summary"> Number of devices: {devices.length}</p>
       <DeviceList devices={devices} deleteDevice={deleteDevice} correctDevice={correctDevice}/>
     </main>
   )
