@@ -69,6 +69,12 @@
     color: #fff;
 }
 
+.actions button:disabled {
+    background: #c5ccd5;
+    cursor: not-allowed;
+    color: #667587;
+}
+
 .actions .danger {
     background: #f7e3e3;
     color: #922c2c

@@ -32,7 +32,7 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
                            setDraftName(e.target.value)}/> : <h2>{device.name}</h2>}
             <p>Platform: {device.platform}</p>
             <div className='actions'>
-                <button onClick={() => setIsEditing(true)}>Edit</button>
+                <button disabled={isEditing} onClick={() => setIsEditing(true)}>Edit</button>
                 <button className='danger' onClick={() => deleteDevice(device.id)}>Delete</button>
             </div>
         </article>
