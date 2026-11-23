@@ -12,7 +12,7 @@ function EditDeviceModal({device, onSave, onClose}) {
     }
     return (
         <form onSubmit={hendleSubmit}>
-            <div>Редактируем: {name}
+            <div>Редактируем: {device.name}
                 <input type="text"
                        value={name}
                        onChange={(e) =>

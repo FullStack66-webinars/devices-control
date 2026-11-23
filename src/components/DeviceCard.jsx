@@ -6,8 +6,11 @@ export default function DeviceCard({device, onDelete, onEdit}) {
         <article className="device-card">
             <h2>{device.name}</h2>
             <p>Platform: {device.platform}</p>
-            <OnDeleteButton onClick={() => onDelete(device.id)}/>
-            <OnEditButton onClick={() => onEdit(device)}/>
+            <div className="actions">
+                <OnDeleteButton onClick={() => onDelete(device.id)}/>
+                <OnEditButton onClick={() => onEdit(device)}/>
+            </div>
+
         </article>
     )
 }

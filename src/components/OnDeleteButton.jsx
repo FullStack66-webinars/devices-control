@@ -1,3 +1,3 @@
 export function OnDeleteButton({ onClick }){
-    return <button className="Button" onClick={onClick}>Delete</button>
+    return <button className="danger" onClick={onClick}>Delete</button>
 }
