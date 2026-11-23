@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-export default function DeviceCard({device, deleteDevice, correctDevice}) {
+export default function DeviceCard({device, deleteDevice, editDevice}) {
     const [isEditing, setIsEditing] = useState(false);
     const [draftName, setDraftName] = useState(device.name);
 
@@ -10,7 +10,7 @@ export default function DeviceCard({device, deleteDevice, correctDevice}) {
             handleCancelClick()
             return;
         }
-        correctDevice(device.id, newName);
+        editDevice(device.id, newName);
         setDraftName(newName);
         setIsEditing(false);
     }
@@ -32,7 +32,7 @@ export default function DeviceCard({device, deleteDevice, correctDevice}) {
                            setDraftName(e.target.value)}/> : <h2>{device.name}</h2>}
             <p>Platform: {device.platform}</p>
             <div className='actions'>
-                <button onClick={() => setIsEditing(true)}>Correct</button>
+                <button onClick={() => setIsEditing(true)}>Edit</button>
                 <button className='danger' onClick={() => deleteDevice(device.id)}>Delete</button>
             </div>
         </article>

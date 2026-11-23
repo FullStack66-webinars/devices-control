@@ -7,7 +7,7 @@ import {initialDevices} from "./data/devices.js";
 function App() {
     const [devices, setDevices] = useState(initialDevices);
 
-    function correctDevice(id, newName) {
+    function editDevice(id, newName) {
         setDevices(prev => prev.map(device => (device.id === id ? {...device, name: newName} : device)));
     }
 
@@ -25,7 +25,7 @@ function App() {
       </header>
 
       <p className="summary"> Number of devices: {devices.length}</p>
-      <DeviceList devices={devices} deleteDevice={deleteDevice} correctDevice={correctDevice}/>
+      <DeviceList devices={devices} deleteDevice={deleteDevice} editDevice={editDevice}/>
     </main>
   )
 }

@@ -1,6 +1,6 @@
 import DeviceCard from "./DeviceCard.jsx";
 
-export default function DeviceList ({devices, deleteDevice, correctDevice}) {
+export default function DeviceList ({devices, deleteDevice, editDevice}) {
     if (devices.length === 0) {
         return <p className="muted">No devices found.</p>;
     }
@@ -11,7 +11,7 @@ export default function DeviceList ({devices, deleteDevice, correctDevice}) {
                 key={device.id}
                 device={device}
                 deleteDevice={deleteDevice}
-                correctDevice={correctDevice}
+                editDevice={editDevice}
                 />
             ))}
 
