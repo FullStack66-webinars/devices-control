@@ -1,18 +1,22 @@
 import {useState} from "react";
 
-export default function DeviceCard({device, deleteDevice, correctDevice}){
+export default function DeviceCard({device, deleteDevice, correctDevice}) {
     const [isEditing, setIsEditing] = useState(false);
     const [draftName, setDraftName] = useState(device.name);
 
-    function handleSaveClick(){
+    function handleSaveClick() {
         const newName = draftName.trim()
-        if (newName === ""){
-            setDraftName(device.name)
-            setIsEditing(false)
+        if (newName === "") {
+            handleCancelClick()
             return;
         }
-        setDraftName(newName);
         correctDevice(device.id, newName);
+        setDraftName(newName);
+        setIsEditing(false);
+    }
+
+    function handleCancelClick() {
+        setDraftName(device.name);
         setIsEditing(false);
     }
 
@@ -20,13 +24,16 @@ export default function DeviceCard({device, deleteDevice, correctDevice}){
         <article className="device-card">
             {isEditing ?
                 <input className='name-input' type="text" value={draftName} autoFocus onBlur={handleSaveClick}
-                       onKeyDown={(e) => e.key === "Enter" && handleSaveClick()}
-                       onChange={(e) => setDraftName(e.target.value)} /> :
-                <h2>{device.name}</h2>}
+                       onKeyDown={(e) => {
+                           if (e.key === 'Enter') handleSaveClick()
+                           if (e.key === 'Escape') handleCancelClick()
+                       }}
+                       onChange={(e) =>
+                           setDraftName(e.target.value)}/> : <h2>{device.name}</h2>}
             <p>Platform: {device.platform}</p>
             <div className='actions'>
-            <button onClick={() => setIsEditing(true)}>Correct</button>
-            <button className='danger' onClick={() => deleteDevice(device.id)}>Delete</button>
+                <button onClick={() => setIsEditing(true)}>Correct</button>
+                <button className='danger' onClick={() => deleteDevice(device.id)}>Delete</button>
             </div>
         </article>
     )
