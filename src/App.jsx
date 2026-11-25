@@ -1,11 +1,19 @@
-// import { useState } from 'react'
-
+import { useState } from 'react'
 import './App.css'
 import DeviceList from "./components/DeviceList.jsx";
 import {initialDevices} from "./data/devices.js";
 
-function App() {
 
+function App() {
+    const [devices, setDevices] = useState(initialDevices);
+
+    function editDevice(id, newName) {
+        setDevices(prev => prev.map(device => (device.id === id ? {...device, name: newName} : device)));
+    }
+
+    function deleteDevice(id) {
+        setDevices(prev => prev.filter(device => device.id !== id));
+    }
 
   return (
     <main className="page">
@@ -16,8 +24,8 @@ function App() {
         <p className="muted">Control devices</p>
       </header>
 
-      <p className="summary"> Number o devices: {initialDevices.length}</p>
-      <DeviceList devices={initialDevices}/>
+      <p className="summary"> Number of devices: {devices.length}</p>
+      <DeviceList devices={devices} deleteDevice={deleteDevice} editDevice={editDevice}/>
     </main>
   )
 }
