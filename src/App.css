@@ -44,14 +44,18 @@
   gap: 8px;
   margin-top: 16px;
 }
-.actions button{
-  border:0;
-  border-radius: 8px;
-  padding: 9px 12px;
+.actions button {
+  border: 0;
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
   background: #315d94;
   color: #fff;
 }
-
+.actions button:hover {
+  opacity: 0.85;
+}
 .actions .danger{
   background: #f7e3e3;
   color: #922c2c
@@ -63,4 +67,19 @@
   border-radius: 12px;
   margin-top: 20px;
   padding: 20px;
+}
+
+.actions .save {
+  background: #315d94;
+  color: #fff;
+}
+
+.actions .secondary {
+  background: #edf1f5;
+  color: #526781;
+}
+
+.actions .save:hover,
+.actions .secondary:hover {
+  opacity: 0.85;
 }
