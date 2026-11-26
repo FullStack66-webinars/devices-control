@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PLATFORMS } from "../constants/platforms.js";
 
-export default function DeviceForm() {
+export default function DeviceForm({onAdd, onCansel}) {
     const [formData, setFormData] = useState({
         name: "",
         platform: PLATFORMS[0],
@@ -10,7 +10,7 @@ export default function DeviceForm() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(formData);
+        onAdd(formData);
     }
 
     function handleChange(event) {
@@ -68,7 +68,7 @@ export default function DeviceForm() {
 
                 <div className="actions">
                     <button type="submit">Add device</button>
-                    <button type="button">Cancel</button>
+                    <button onClick={onCansel} type="button">Cancel</button>
                 </div>
             </form>
         </section>
