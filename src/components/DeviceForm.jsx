@@ -1,9 +1,22 @@
 import { PLATFORMS } from "../constants/platforms.js";
+import {useState} from "react";
 
 export default function DeviceForm() {
+    const [name, setName] = useState("");
+    const [platform, setPlatform] = useState(PLATFORMS[0]);
+    const [isActive, setIsActive] = useState(true);
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(e, "handleSubmit");
+        const dataDevice = {
+            name,
+            platform,
+            isActive,
+        }
+        console.log(dataDevice);
+    }
+    function handleNameChange(ev) {
+        console.log(ev.target.value);
+        setName(ev.target.value);
     }
     return (
         <section className="panel" aria-labelledby="device-form-title">
@@ -18,12 +31,18 @@ export default function DeviceForm() {
                         name="name"
                         type="text"
                         placeholder="e.g. Work laptop"
+                        value={name}
+                        onChange={handleNameChange}
                     />
                 </p>
 
                 <p>
                     <label htmlFor="device-platform">Operating system</label>{" "}
-                    <select id="device-platform" name="platform">
+                    <select
+                        name="platform"
+                    value={platform}
+                    onChange={event =>
+                        setPlatform(event.target.value)}>
                         {PLATFORMS.map((platform) => (
                             <option key={platform} value={platform}>
                                 {platform}
@@ -34,9 +53,11 @@ export default function DeviceForm() {
 
                 <p>
                     <input
-                        id="device-active"
+                        checked={isActive}
                         name="isActive"
                         type="checkbox"
+                        onChange={event =>
+                    setIsActive(event.target.checked)}
                     />{" "}
                     <label htmlFor="device-active">Active</label>
                 </p>
