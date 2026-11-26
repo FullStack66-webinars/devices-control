@@ -2,28 +2,27 @@ import {PLATFORMS} from "../constants/platforms.js";
 import {useState} from "react";
 
 export default function DeviceForm() {
-    const [name, setName] = useState("");
-    const [platform, setPlatform] = useState("Android");
-    const [isActive, setIsActive] = useState(true);
-    function handleSubmit(e) {
-         e.preventDefault();
-       const deviceData = {
-           name,
-           platform,
-           isActive,
-       };
-        console.log(deviceData);
+    const [formData, setFormData] = useState({
+        name: "",
+        platform: "Android",
+        isActive: true,
+    });
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log(formData);
     }
 
-    function handleNameChange(e) {
-        console.log(e.target.value);
-        setName(e.target.value);
+    function handleChange(event) {
+        const {name, type, value, checked} = event.target;
+        setFormData((previousData) => ({
+            ...previousData,
+            [name]: type === "checkbox" ? checked : value,
+        }));
     }
 
     return (
-        <form onSubmit={handleSubmit}
-
-            className="panel" aria-label="Register device">
+        <form onSubmit={handleSubmit} className="panel" aria-label="Register device">
             <p>
                 <label htmlFor="device-name">
                     Device name{" "}
@@ -31,8 +30,9 @@ export default function DeviceForm() {
                         type="text"
                         name="name"
                         id="device-name"
-                    value={name}
-                    onChange={handleNameChange}/>
+                        value={formData.name}
+                        onChange={handleChange}
+                    />
                 </label>
             </p>
             <p>
@@ -40,9 +40,9 @@ export default function DeviceForm() {
                     Operating system{" "}
                     <select
                         name="platform"
-                    value={platform}
-                    onChange={event =>
-                        setPlatform(event.target.value)}>
+                        value={formData.platform}
+                        onChange={handleChange}
+                    >
                         {PLATFORMS.map((platform) => (
                             <option key={platform} value={platform}>{platform}</option>
                         ))}
@@ -54,9 +54,8 @@ export default function DeviceForm() {
                     <input
                         type="checkbox"
                         name="isActive"
-                    checked={isActive}
-                        onChange={
-                            event =>setIsActive(event.target.checked)}
+                        checked={formData.isActive}
+                        onChange={handleChange}
                     /> Active
                 </label>
             </p>
