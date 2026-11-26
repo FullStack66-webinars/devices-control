@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import DeviceList from "./components/DeviceList.jsx";
 import {initialDevices} from "./data/devices.js";
+import DeviceForm  from "./components/DeviceForm.jsx";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <p className="muted">Control devices</p>
       </header>
 
+        <DeviceForm />
       <p className="summary"> Number of devices: {devices.length}</p>
       <DeviceList devices={devices} deleteDevice={deleteDevice} editDevice={editDevice}/>
     </main>
