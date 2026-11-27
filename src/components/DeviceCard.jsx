@@ -5,21 +5,22 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
     const [draftName, setDraftName] = useState(device.name);
     const [errorName, setErrorName] = useState('');
 
+    function handleEditClick() {
+        setDraftName(device.name);
+        setErrorName('');
+        setIsEditing(true);
+    }
+
     function handleSaveClick() {
-        const newName = draftName.trim();
-        const error = editDevice(device.id, newName);
+        const error = editDevice(device.id, draftName);
         if (error) {
             setErrorName(error);
             return;
         }
-        setDraftName(newName);
-        setErrorName('');
         setIsEditing(false);
     }
 
     function handleCancelClick() {
-        setDraftName(device.name);
-        setErrorName('');
         setIsEditing(false);
     }
 
@@ -35,10 +36,10 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
                            setDraftName(e.target.value);
                            setErrorName('');
                        }}/> : <h2>{device.name}</h2>}
-            {errorName && <p className='error'>{errorName}</p>}
+            {isEditing && errorName && <p className='error'>{errorName}</p>}
             <p>Platform: {device.platform}</p>
             <div className='actions'>
-                <button disabled={isEditing} onClick={() => setIsEditing(true)}>Edit</button>
+                <button disabled={isEditing} onClick={handleEditClick}>Edit</button>
                 <button className='danger' onClick={() => deleteDevice(device.id)}>Delete</button>
             </div>
         </article>
