@@ -1,40 +1,116 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 export default function DeviceCard({device, deleteDevice, editDevice}) {
     const [isEditing, setIsEditing] = useState(false);
     const [draftName, setDraftName] = useState(device.name);
+    const [editError, setEditError] = useState("");
+    const skipBlurRef = useRef(false);
+
+    function handleEditClick() {
+        skipBlurRef.current = false;
+        setDraftName(device.name);
+        setEditError("");
+        setIsEditing(true);
+    }
 
     function handleSaveClick() {
-        const newName = draftName.trim()
-        if (newName === "") {
-            handleCancelClick()
+        const error = editDevice(device.id, draftName);
+        if (error) {
+            setEditError(error);
             return;
         }
-        editDevice(device.id, newName);
-        setDraftName(newName);
+
+        skipBlurRef.current = true;
+        setDraftName(draftName.trim());
+        setEditError("");
         setIsEditing(false);
     }
 
     function handleCancelClick() {
+        skipBlurRef.current = true;
         setDraftName(device.name);
+        setEditError("");
         setIsEditing(false);
     }
 
+    function handleBlur() {
+        if (skipBlurRef.current) {
+            skipBlurRef.current = false;
+            return;
+        }
+        handleSaveClick();
+    }
+
+    function handleKeyDown(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            handleSaveClick();
+        }
+        if (event.key === "Escape") {
+            event.preventDefault();
+            handleCancelClick();
+        }
+    }
+
+    function handleNameChange(event) {
+        setDraftName(event.target.value);
+        if (editError) {
+            setEditError("");
+        }
+    }
+
+    const errorId = `device-edit-error-${device.id}`;
+
     return (
         <article className="device-card">
-            {isEditing ?
-                <input className='name-input' type="text" value={draftName} autoFocus onBlur={handleSaveClick}
-                       onKeyDown={(e) => {
-                           if (e.key === 'Enter') handleSaveClick()
-                           if (e.key === 'Escape') handleCancelClick()
-                       }}
-                       onChange={(e) =>
-                           setDraftName(e.target.value)}/> : <h2>{device.name}</h2>}
+            {isEditing ? (
+                <div className="edit-name-field">
+                    <input
+                        className="name-input"
+                        type="text"
+                        value={draftName}
+                        autoFocus
+                        aria-label="Edit device name"
+                        aria-invalid={Boolean(editError)}
+                        aria-describedby={editError ? errorId : undefined}
+                        onBlur={handleBlur}
+                        onKeyDown={handleKeyDown}
+                        onChange={handleNameChange}
+                    />
+                    {editError && (
+                        <p id={errorId} className="field-error" role="alert">
+                            {editError}
+                        </p>
+                    )}
+                </div>
+            ) : (
+                <h2>{device.name}</h2>
+            )}
             <p>Platform: {device.platform}</p>
-            <div className='actions'>
-                <button disabled={isEditing} onClick={() => setIsEditing(true)}>Edit</button>
-                <button className='danger' onClick={() => deleteDevice(device.id)}>Delete</button>
+            <p>Status: {device.isActive ? "Active" : "Inactive"}</p>
+            <div className="actions">
+                <button type="button" disabled={isEditing} onClick={handleEditClick}>
+                    Edit
+                </button>
+                {isEditing && (
+                    <button
+                        type="button"
+                        className="secondary"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={handleCancelClick}
+                    >
+                        Cancel
+                    </button>
+                )}
+                <button
+                    type="button"
+                    className="danger"
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => deleteDevice(device.id)}
+                >
+                    Delete
+                </button>
             </div>
         </article>
-    )
+    );
 }
