@@ -26,6 +26,7 @@ export default function DeviceForm({
             ...previousData,
             [name]: type === "checkbox" ? checked : value,
         }));
+        setErrorsMessage((previousErrors) => ({...previousErrors, [name]: undefined}));
     }
 
     return (

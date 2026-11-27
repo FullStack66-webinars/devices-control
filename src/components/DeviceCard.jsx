@@ -31,8 +31,10 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
                            if (e.key === 'Enter') handleSaveClick()
                            if (e.key === 'Escape') handleCancelClick()
                        }}
-                       onChange={(e) =>
-                           setDraftName(e.target.value)}/> : <h2>{device.name}</h2>}
+                       onChange={(e) => {
+                           setDraftName(e.target.value);
+                           setErrorName('');
+                       }}/> : <h2>{device.name}</h2>}
             {errorName && <p className='error'>{errorName}</p>}
             <p>Platform: {device.platform}</p>
             <div className='actions'>

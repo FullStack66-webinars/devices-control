@@ -11,11 +11,12 @@ function App() {
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     function editDevice(id, newName) {
-        const error = validateDeviceName(newName, devices, id);
+        const name = newName.trim();
+        const error = validateDeviceName(name, devices, id);
         if (error) {
             return error;
         }
-        setDevices(prev => prev.map(device => (device.id === id ? {...device, name: newName} : device)));
+        setDevices(prev => prev.map(device => (device.id === id ? {...device, name} : device)));
     }
 
     function deleteDevice(id) {
