@@ -10,9 +10,9 @@ function App() {
     const [devices, setDevices] = useState(initialDevices);
     const [isFormOpen, setIsFormOpen] = useState(false);
 
-    function editDevice(id, newName) {
+    function editDevice(id, newName, newPlatform) {
         setDevices(prev =>
-            prev.map(device => (device.id === id ? {...device, name: newName} : device)));
+            prev.map(device => (device.id === id ? {...device, name: newName, platform: newPlatform} : device)));
     }
 
     function deleteDevice(id) {
