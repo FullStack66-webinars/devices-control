@@ -1,89 +1,365 @@
 .page {
-    max-width: 900px;
+    max-width: 980px;
     margin: 0 auto;
-    padding: 32px 20px;
+    padding: 40px 24px 56px;
+}
+
+.page header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.page header h1 {
+    margin: 8px 0 6px;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--text);
 }
 
 .kicker {
-    color: #526781;
-    font-size: 12px;
-    letter-spacing: 1px;
+    display: inline-block;
+    margin: 0;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.muted {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 15px;
 }
 
 .summary {
-    font-weight: bold;
-    margin: 24px 0 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 26px 0 18px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary-text);
+}
+
+.summary::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
 }
 
 .device-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
 }
 
 .device-card {
-    background: #fff;
-    padding: 16px;
-    border: 1px solid #d9e0e8;
-    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+    animation: cardReveal 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.device-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+}
+
+.device-card h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
+.device-card > p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: var(--text-muted);
 }
 
 .name-input {
     display: block;
-    color: inherit;
-    border: none;
-    background: transparent;
-    outline: none;
-
-    font-family: inherit;
-    font-size: 18px;
-    font-weight: bold;
-
-    margin: 0 0 16px;
-    padding: 0;
     width: 100%;
-    box-shadow: 0 1px 0 0 #d9e0e8;
-}
-
-.device-card h2 {
     margin: 0 0 16px;
-    font-size: 18px;
+    padding: 6px 8px;
+    color: var(--text);
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    outline: none;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        background-color 150ms ease;
 }
 
-.muted {
-    color: #667587;
+.name-input:focus {
+    background: var(--surface);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
 .actions {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: 18px;
+}
+
+.device-card .actions {
+    margin-top: auto;
+    padding-top: 16px;
 }
 
 .actions button {
-    border: 0;
-    border-radius: 8px;
-    padding: 9px 12px;
-    background: #315d94;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 9px 15px;
+    background: var(--accent);
     color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        color 150ms ease,
+        transform 120ms ease,
+        box-shadow 150ms ease;
+}
+
+.actions button:hover:not(:disabled) {
+    background: var(--accent-hover);
+    box-shadow: 0 2px 8px rgba(36, 87, 168, 0.22);
+}
+
+.actions button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.actions button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 .actions button:disabled {
-    background: #c5ccd5;
+    background: #dbe2ec;
+    color: #7c8ca1;
     cursor: not-allowed;
-    color: #667587;
+    box-shadow: none;
+}
+
+.actions .secondary,
+.panel .actions button[type="button"] {
+    background: var(--secondary-bg);
+    border-color: var(--border);
+    color: var(--secondary-text);
+}
+
+.actions .secondary:hover:not(:disabled),
+.panel .actions button[type="button"]:hover:not(:disabled) {
+    background: var(--secondary-hover);
+    border-color: var(--border-strong);
+    box-shadow: none;
 }
 
 .actions .danger {
-    background: #f7e3e3;
-    color: #922c2c
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger);
+}
+
+.actions .danger:hover:not(:disabled) {
+    background: var(--danger-hover);
+    border-color: #f3b5b2;
+    box-shadow: none;
 }
 
 .panel {
-    background: #fff;
-    border: 1px solid #d9e0e8;
-    border-radius: 12px;
-    margin-top: 20px;
-    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-top: 22px;
+    padding: 24px;
+    animation: panelReveal 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-field {
+    margin: 0 0 16px;
+}
+
+.form-field label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--secondary-text);
+}
+
+.form-field label:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    cursor: pointer;
+    user-select: none;
+}
+
+.form-field input[type="text"],
+.form-field select {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 12px;
+    color: var(--text);
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 400;
+    outline: none;
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        background-color 150ms ease;
+}
+
+.form-field input[type="text"]:focus,
+.form-field select:focus {
+    background: var(--surface);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.form-field input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.edit-name-field {
+    margin: 0 0 14px;
+}
+
+.edit-name-field .name-input {
+    margin: 0;
+}
+
+.name-input[aria-invalid="true"],
+.form-field input[aria-invalid="true"],
+.form-field select[aria-invalid="true"] {
+    border-color: var(--danger);
+    background: var(--danger-bg);
+}
+
+.name-input[aria-invalid="true"]:focus,
+.form-field input[aria-invalid="true"]:focus,
+.form-field select[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.16);
+}
+
+.field-error {
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 500;
+    margin: 6px 0 0;
+    padding-left: 8px;
+    border-left: 2px solid var(--danger);
+    animation: errorReveal 160ms ease-out;
+}
+
+@keyframes panelReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes errorReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .page {
+        padding: 24px 16px 40px;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    .form-field input[type="text"],
+    .form-field select {
+        max-width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .device-card,
+    .panel,
+    .field-error,
+    .actions button,
+    .name-input,
+    .form-field input[type="text"],
+    .form-field select {
+        animation: none;
+        transition: none;
+    }
+
+    .device-card:hover,
+    .actions button:active:not(:disabled) {
+        transform: none;
+    }
 }
