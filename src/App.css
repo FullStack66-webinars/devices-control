@@ -87,3 +87,8 @@
     margin-top: 20px;
     padding: 20px;
 }
+
+.error {
+    color: #922c2c;
+    font-size: 14px;
+}

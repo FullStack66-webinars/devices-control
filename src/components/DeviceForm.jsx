@@ -1,19 +1,18 @@
 import {PLATFORMS} from "../constants/platforms.js";
 import {useState} from "react";
 
-export default function DeviceForm({
-                                       onAdd,
-    onCancel,
-}) {
+export default function DeviceForm({onAdd, onCancel}) {
     const [formData, setFormData] = useState({
         name: "",
         platform: "Android",
         isActive: true,
     });
+    const [errors, setErrors] = useState({});
 
     function handleSubmit(event) {
         event.preventDefault();
-        onAdd(formData);
+        const errorMessage = onAdd(formData);
+        setErrors(errorMessage);
     }
 
     function handleChange(event) {
@@ -22,6 +21,7 @@ export default function DeviceForm({
             ...previousData,
             [name]: type === "checkbox" ? checked : value,
         }));
+        setErrors({});
     }
 
     return (
@@ -38,6 +38,7 @@ export default function DeviceForm({
                     />
                 </label>
             </p>
+            {errors.name && <p className="error">{errors.name}</p>}
             <p>
                 <label>
                     Operating system{" "}
@@ -64,9 +65,7 @@ export default function DeviceForm({
             </p>
             <div className="actions">
                 <button type="submit">Add device</button>
-                <button type="button"
-                onClick={onCancel}
-                >Cancel</button>
+                <button type="button" onClick={onCancel}>Cancel</button>
             </div>
         </form>
     );
