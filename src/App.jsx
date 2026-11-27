@@ -3,7 +3,7 @@ import './App.css'
 import DeviceList from "./components/DeviceList.jsx";
 import {initialDevices} from "./data/devices.js";
 import DeviceForm from "./components/DeviceForm.jsx";
-import {validateDevice} from "./utils/deviceValidation.js";
+import {validateDevice, validateDeviceName} from "./utils/deviceValidation.js";
 
 
 function App() {
@@ -11,6 +11,10 @@ function App() {
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     function editDevice(id, newName) {
+        const error = validateDeviceName(newName, devices, id);
+        if (error) {
+            return error;
+        }
         setDevices(prev => prev.map(device => (device.id === id ? {...device, name: newName} : device)));
     }
 
