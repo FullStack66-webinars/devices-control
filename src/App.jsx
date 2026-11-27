@@ -3,7 +3,7 @@ import './App.css'
 import DeviceList from "./components/DeviceList.jsx";
 import {initialDevices} from "./data/devices.js";
 import DeviceForm  from "./components/DeviceForm.jsx";
-import {validateDeviceName} from "./utils/deviceValidation.js";
+import {validateDevice} from "./utils/deviceValidation.js";
 
 
 function App() {
@@ -18,8 +18,8 @@ function App() {
     }
 
     function addDevice(deviceData) {
-       const errors = validateDeviceName(deviceData, devices);
-       if (!Object.keys(errors).length>0) {
+       const errors = validateDevice(deviceData, devices);
+       if (Object.keys(errors).length>0) {
            return errors;
        }
         const newDevice=
@@ -27,6 +27,7 @@ function App() {
             id: crypto.randomUUID(),
             ...deviceData,
         } ;
+
         setDevices(prev => [...prev, newDevice]);
         setIsFormOpen(false);
     }

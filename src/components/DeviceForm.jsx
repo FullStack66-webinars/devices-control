@@ -10,10 +10,14 @@ export default function DeviceForm({
         platform: "Android",
         isActive: true,
     });
+    const [errorsMessage, setErrorsMessage] = useState({});
 
     function handleSubmit(event) {
         event.preventDefault();
-        onAdd(formData);
+        const errorsFromData = onAdd(formData);
+        if (errorsFromData) {
+            setErrorsMessage(errorsFromData);
+        }
     }
 
     function handleChange(event) {
@@ -38,6 +42,7 @@ export default function DeviceForm({
                     />
                 </label>
             </p>
+            {errorsMessage.name && <p className="error">{errorsMessage.name}</p>}
             <p>
                 <label>
                     Operating system{" "}
@@ -52,6 +57,7 @@ export default function DeviceForm({
                     </select>
                 </label>
             </p>
+            {errorsMessage.platform && <p className="error">{errorsMessage.platform}</p>}
             <p>
                 <label>
                     <input
@@ -62,6 +68,7 @@ export default function DeviceForm({
                     /> Active
                 </label>
             </p>
+            {errorsMessage.isActive && <p className="error">{errorsMessage.isActive}</p>}
             <div className="actions">
                 <button type="submit">Add device</button>
                 <button type="button"
