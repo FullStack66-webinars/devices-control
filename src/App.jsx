@@ -3,7 +3,8 @@ import './App.css'
 import DeviceList from "./components/DeviceList.jsx";
 import {initialDevices} from "./data/devices.js";
 import DeviceForm from "./components/DeviceForm.jsx";
-import {validateDeviceName} from "./utils/deviceValidation.js";
+import {validateDevice, validateDeviceName} from "./utils/deviceValidation.js";
+
 
 
 function App() {
@@ -11,7 +12,12 @@ function App() {
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     function editDevice(id, newName) {
-        setDevices(prev => prev.map(device => (device.id === id ? {...device, name: newName} : device)));
+        const error = validateDeviceName(newName, devices, id);
+        if (error) {
+            return error;
+        }
+        setDevices(prev => prev.map(device => (device.id === id ? {...device, name: newName.trim()} : device)));
+        return error;
     }
 
     function deleteDevice(id) {
@@ -19,16 +25,18 @@ function App() {
     }
 
     function addDevice(deviceData) {
-        const errors = validateDeviceName(deviceData,devices);
-        if (!Object.keys(errors).length>0) {
+        const errors = validateDevice(deviceData,devices);
+        if (Object.keys(errors).length>0) {
             return errors;
         }
         const newDevice = {
             id: crypto.randomUUID(),
             ...deviceData,
+            name: deviceData.name.trim(),
         }
         setDevices(prev => [...prev, newDevice]);
         setIsFormOpen(false);
+        return errors;
     }
 
   return (
@@ -50,7 +58,7 @@ function App() {
             )
         }{
             isFormOpen && (
-                <DeviceForm onAdd={addDevice} onCansel={() => setIsFormOpen(false)} />
+                <DeviceForm onAdd={addDevice} onCancel={() => setIsFormOpen(false)} />
         )
     }
 

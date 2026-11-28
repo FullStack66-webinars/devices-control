@@ -87,3 +87,26 @@
     margin-top: 20px;
     padding: 20px;
 }
+
+.panel form > div {
+    margin-bottom: 12px;
+}
+
+.field-error {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #c62828;
+}
+
+.device-card .field-error {
+    margin: -10px 0 12px;
+}
+
+.input-error {
+    border-color: #c62828;
+    outline-color: #c62828;
+}
+
+.name-input.input-error {
+    box-shadow: 0 1px 0 0 #c62828;
+}

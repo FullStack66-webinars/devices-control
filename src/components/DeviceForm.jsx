@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { PLATFORMS } from "../constants/platforms.js";
+import {useState} from "react";
+import {PLATFORMS} from "../constants/platforms.js";
 
-export default function DeviceForm({onAdd, onCansel}) {
+export default function DeviceForm({onAdd, onCancel}) {
+    const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         name: "",
         platform: PLATFORMS[0],
@@ -10,11 +11,12 @@ export default function DeviceForm({onAdd, onCansel}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        onAdd(formData);
+        setErrors(onAdd(formData));
     }
 
     function handleChange(event) {
-        const { name, type, value, checked } = event.target;
+        const {name, type, value, checked} = event.target;
+        if (errors[name]) {setErrors((prev) => ({...prev, [name]: ""}));}
         setFormData((prev) => ({
             ...prev,
             [name]: type === "checkbox" ? checked : value,
@@ -27,23 +29,32 @@ export default function DeviceForm({onAdd, onCansel}) {
             <p className="muted">Enter the device details below.</p>
 
             <form onSubmit={handleSubmit}>
-                <p>
+                <div>
                     <label htmlFor="device-name">Device name</label>{" "}
                     <input
                         id="device-name"
                         name="name"
                         type="text"
+                        className={errors.name ? "input-error" : undefined}
                         placeholder="e.g. Work laptop"
                         value={formData.name}
                         onChange={handleChange}
                     />
-                </p>
+                    {
+                        errors.name && (
+                            <p className="field-error">
+                                {errors.name}
+                            </p>
+                        )
+                    }
+                </div>
 
-                <p>
+                <div>
                     <label htmlFor="device-platform">Operating system</label>{" "}
                     <select
                         id="device-platform"
                         name="platform"
+                        className={errors.platform ? "input-error" : undefined}
                         value={formData.platform}
                         onChange={handleChange}
                     >
@@ -53,9 +64,16 @@ export default function DeviceForm({onAdd, onCansel}) {
                             </option>
                         ))}
                     </select>
-                </p>
+                    {
+                        errors.platform && (
+                            <p className="field-error">
+                                {errors.platform}
+                            </p>
+                        )
+                    }
+                </div>
 
-                <p>
+                <div>
                     <input
                         id="device-active"
                         name="isActive"
@@ -64,11 +82,18 @@ export default function DeviceForm({onAdd, onCansel}) {
                         onChange={handleChange}
                     />{" "}
                     <label htmlFor="device-active">Active</label>
-                </p>
+                    {
+                        errors.isActive && (
+                            <p className="field-error">
+                                {errors.isActive}
+                            </p>
+                        )
+                    }
+                </div>
 
                 <div className="actions">
                     <button type="submit">Add device</button>
-                    <button onClick={onCansel} type="button">Cancel</button>
+                    <button onClick={onCancel} type="button">Cancel</button>
                 </div>
             </form>
         </section>
