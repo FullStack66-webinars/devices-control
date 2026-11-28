@@ -11,8 +11,22 @@ function App() {
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     function editDevice(id, newName, newPlatform) {
+        const currentDevice = devices.find(device => device.id === id);
+
+        const errors = validateDevice({
+            name: newName,
+            platform: newPlatform,
+            isActive: currentDevice.isActive
+        }, devices, currentDevice.id)
+
+        if(Object.keys(errors).length !== 0) {
+            return errors;
+        }
+
         setDevices(prev =>
             prev.map(device => (device.id === id ? {...device, name: newName, platform: newPlatform} : device)));
+
+        return {}
     }
 
     function deleteDevice(id) {

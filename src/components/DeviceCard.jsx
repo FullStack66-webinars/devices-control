@@ -5,6 +5,7 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
     const [isEditing, setIsEditing] = useState(false);
     const [draftName, setDraftName] = useState(device.name);
     const [draftPlatform, setDraftPlatform] = useState(device.platform);
+    const [errors, setErrors] = useState({});
 
     function handleSaveClick() {
         const newName = draftName.trim()
@@ -13,10 +14,13 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
             handleCancelClick()
             return;
         }
-
-        editDevice(device.id, newName, draftPlatform);
+        const errorMessage = editDevice(device.id, newName, draftPlatform);
+        if (Object.keys(errorMessage).length !== 0) {
+            setErrors(errorMessage)
+            return;
+        }
+        setErrors({});
         setDraftName(newName);
-        setDraftPlatform(draftPlatform);
         setIsEditing(false);
     }
 
@@ -24,6 +28,7 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
         setDraftName(device.name);
         setDraftPlatform(device.platform);
         setIsEditing(false);
+        setErrors({})
     }
 
     return (
@@ -34,8 +39,10 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
                            if (e.key === 'Enter') handleSaveClick()
                            if (e.key === 'Escape') handleCancelClick()
                        }}
-                       onChange={(e) =>
-                           setDraftName(e.target.value)}/> : <h2>{device.name}</h2>}
+                       onChange={(e) => {
+                           setErrors({})
+                           setDraftName(e.target.value)
+                       }}/> : <h2>{device.name}</h2>}
             {isEditing ?
                 <p>
                     <label>
@@ -54,6 +61,7 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
                 </p>
                 : <p>Platform: {device.platform}</p>
             }
+            {errors.name && <p className="error">{errors.name}</p>}
 
             <div className='actions'>
                 {!isEditing ? <button onClick={() => setIsEditing(true)}>Edit</button>
