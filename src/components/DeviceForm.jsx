@@ -11,9 +11,12 @@ export default function DeviceForm({
         isActive: true,
     });
 
+    const [errors, setErrors] = useState({});
+
     function handleSubmit(event) {
         event.preventDefault();
-        onAdd(formData);
+        const validationErrors = onAdd(formData);
+        setErrors(validationErrors);
     }
 
     function handleChange(event) {
@@ -36,6 +39,9 @@ export default function DeviceForm({
                         value={formData.name}
                         onChange={handleChange}
                     />
+                    {errors.name && (
+                        <span className="error">{errors.name}</span>
+                    )}
                 </label>
             </p>
             <p>
@@ -50,6 +56,9 @@ export default function DeviceForm({
                             <option key={platform} value={platform}>{platform}</option>
                         ))}
                     </select>
+                    {errors.platform && (
+                        <span className="error">{errors.platform}</span>
+                    )}
                 </label>
             </p>
             <p>
@@ -60,6 +69,9 @@ export default function DeviceForm({
                         checked={formData.isActive}
                         onChange={handleChange}
                     /> Active
+                    {errors.isActive && (
+                        <span className="error">{errors.isActive}</span>
+                    )}
                 </label>
             </p>
             <div className="actions">

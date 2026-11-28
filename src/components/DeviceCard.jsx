@@ -3,19 +3,24 @@ import {useState} from "react";
 export default function DeviceCard({device, deleteDevice, editDevice}) {
     const [isEditing, setIsEditing] = useState(false);
     const [draftName, setDraftName] = useState(device.name);
+    const [error, setError] = useState("");
 
     function handleSaveClick() {
         const newName = draftName.trim()
-        if (newName === "") {
-            handleCancelClick()
+        const validationError = editDevice(device.id, newName);
+
+        if (validationError) {
+            setError(validationError);
             return;
         }
-        editDevice(device.id, newName);
+
+        setError("");
         setDraftName(newName);
         setIsEditing(false);
     }
 
     function handleCancelClick() {
+        setError("");
         setDraftName(device.name);
         setIsEditing(false);
     }
@@ -30,6 +35,9 @@ export default function DeviceCard({device, deleteDevice, editDevice}) {
                        }}
                        onChange={(e) =>
                            setDraftName(e.target.value)}/> : <h2>{device.name}</h2>}
+            {error && (
+                <span className="error">{error}</span>
+            )}
             <p>Platform: {device.platform}</p>
             <div className='actions'>
                 <button disabled={isEditing} onClick={() => setIsEditing(true)}>Edit</button>

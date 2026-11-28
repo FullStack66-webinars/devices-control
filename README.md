@@ -742,3 +742,39 @@ feat: display device statistics
 ---
 
 **Главная идея проекта:** каждая новая возможность должна решать понятную практическую задачу, а каждая новая технология — появляться тогда, когда мы понимаем, зачем она нам нужна. Продолжаем развивать Devices Control на основе нашей собственной работы и сохраняем историю этого развития в GitHub.
+
+
+## HW 44 — Device Validation
+
+### Implemented changes
+
+- Fixed device registration validation.
+- Added validation error messages for all form fields.
+- Preserved form data after unsuccessful registration.
+- Added device name normalization using `trim()`.
+- Implemented name validation during device renaming.
+- Preserved existing editing, cancellation, and deletion functionality.
+
+### Automated testing
+
+Added `src/utils/deviceValidation.test.js`, a lightweight test script implemented in pure JavaScript without additional libraries.
+
+The test suite includes 11 automated checks covering:
+
+- Valid and invalid device names.
+- Empty and whitespace-only names.
+- Minimum and maximum name length.
+- Duplicate names and case-insensitive comparison.
+- Name validation during device renaming.
+
+The script provides individual test results and summary statistics.
+
+Run the tests from the project root:
+
+```bash
+node src/utils/deviceValidation.test.js
+```
+
+### Manual UI testing
+
+Device registration, validation error messages, name normalization, and device renaming were verified manually in the browser.
